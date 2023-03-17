@@ -1,34 +1,29 @@
-function Drawer (){
+function Drawer ({onClose,onCloseCart,onRemove,items=[]}){
     return (
-        <div style= {{display:'none'}} className="overlay">
+        <div className="overlay">
         <div className="drawer">
-        <h2 className="mb-30 d-flex justify-between ">Корзина <img className="removeBtn cu-p"src="/img/btn-remove.svg " alt="Remove"></img></h2>
+        <h2 className="mb-30 d-flex justify-between ">Корзина <img onClick={onClose} className="removeBtn cu-p"src="/img/btn-remove.svg " alt="Close"></img></h2>
 
-        <div className="items">
-        <div className="cartItem d-flex align-center mb-20 ">
-            <div
-              style={{ backgroundImage: "url(/img/sneakers/1.jpg)" }}
-              className="cartItemImg"
-            ></div>
-            <div className="mr-20 flex ">
-              <p className="mb-5">Nike Blazer Mid Suede</p>
-              <b>12 999 руб</b>
-            </div>
-            <img className="removeBtn"src="/img/btn-remove.svg" alt="Remove"
-            />
-          </div>
-
-          <div className="cartItem d-flex align-center">
-            <div style={{ backgroundImage: "url(/img/sneakers/3.jpg)" }} className="cartItemImg"></div>
-            <div className="mr-20 flex ">
-              <p className="mb-5">Nike Blazer Mid Suede</p>
-              <b>12 999 руб</b>
-            </div>
-            <img
-              className="removeBtn" src="/img/btn-remove.svg" alt="Remove"/>
-          </div>
+          {items.length>0?  
+          <div>
+           <div className="items">
+      {items.map((obj)=>(
+      <div className="cartItem d-flex align-center mb-20 ">
+        <div
+          style={{ backgroundImage: `url(${obj.imageUrl})` }}
+          className="cartItemImg"
+        ></div>
+        <div className="mr-20 flex  ">
+          <p className="mb-5">{obj.title}</p>
+          <b>{obj.price} руб</b>
         </div>
-        <div className="cartTotalBlock">
+        <img onClick={()=>onRemove(obj.id)} className="removeBtn"src="/img/btn-remove.svg" alt="Remove"
+        />
+      </div>
+      ))}
+  </div>
+
+  <div className="cartTotalBlock">
         <ul className="">
           <li className="d-flex">
             <span>Итого</span>
@@ -43,6 +38,17 @@ function Drawer (){
         </ul>
         <button className="greenButton">Оформить заказ <img src="/img/arrow.svg" alt="Arrow" /></button>
         </div>
+        </div>
+  : <div className="cartEmpty d-flex align-center justify-center flex-column flex">
+        <img className="mb-20" width={120} height={120} src="/img/empty-cart.jpg" alt="" />
+        <h3>Корзина пустая</h3>
+        <p className="opacity-6"> Добавьте хотя бы одну пару кроссовок,чтобы сделать заказ </p>
+        <button onClick={onClose} className="greenButton">
+        <img src="/img/arrow.svg" alt="Arrow"  /> Вернуться назад
+        </button>
+
+        </div>}
+        
        
       </div>
        </div>
